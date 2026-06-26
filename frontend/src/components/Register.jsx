@@ -12,7 +12,8 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3001/api/users/signup', { username, password, admin });
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      await axios.post(`${API_BASE_URL}/api/users/signup`, { username, password, admin });
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.error || 'Registration failed');

@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/api/questions';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = `${API_BASE}/api/questions`;
 
 export const fetchQuestions = createAsyncThunk('questions/fetchQuestions', async (_, { getState }) => {
   const { auth } = getState();

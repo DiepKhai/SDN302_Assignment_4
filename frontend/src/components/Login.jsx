@@ -14,7 +14,8 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/api/users/login', { username, password });
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const response = await axios.post(`${API_BASE_URL}/api/users/login`, { username, password });
       dispatch(loginSuccess(response.data));
       navigate('/dashboard');
     } catch (err) {
