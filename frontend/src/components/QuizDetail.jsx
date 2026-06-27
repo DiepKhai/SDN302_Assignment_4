@@ -25,7 +25,7 @@ const QuizDetail = () => {
     e.preventDefault();
     let currentScore = 0;
     currentQuiz.questions.forEach((q) => {
-      if (answers[q._id] === q.correctAnswer) {
+      if (answers[q._id] === q.correctAnswerIndex) {
         currentScore += 1;
       }
     });

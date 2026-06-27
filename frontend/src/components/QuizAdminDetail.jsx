@@ -32,7 +32,7 @@ const QuizAdminDetail = () => {
     e.preventDefault();
     dispatch(addQuestionToQuiz({
       quizId: id,
-      questionData: { text, options, correctAnswer: Number(correctAnswer) }
+      questionData: { text, options, correctAnswerIndex: Number(correctAnswer) }
     }));
     setText('');
     setOptions(['', '', '', '']);
@@ -130,8 +130,8 @@ const QuizAdminDetail = () => {
             <h5 className="mb-3">{q.text}</h5>
             <ol>
               {q.options.map((opt, idx) => (
-                <li key={idx} className={idx === q.correctAnswer ? "fw-bold text-success" : ""}>
-                  {opt} {idx === q.correctAnswer && "(Correct)"}
+                <li key={idx} className={idx === q.correctAnswerIndex ? "fw-bold text-success" : ""}>
+                  {opt} {idx === q.correctAnswerIndex && "(Correct)"}
                 </li>
               ))}
             </ol>

@@ -26,7 +26,7 @@ const ManageQuestions = () => {
 
   const handleAddQuestion = (e) => {
     e.preventDefault();
-    dispatch(addQuestion({ text, options, correctAnswer: Number(correctAnswer) }));
+    dispatch(addQuestion({ text, options, correctAnswerIndex: Number(correctAnswer) }));
     setText('');
     setOptions(['', '', '', '']);
     setCorrectAnswer(0);
@@ -49,7 +49,7 @@ const ManageQuestions = () => {
       questionData: {
         text: editingQuestion.text,
         options: editingQuestion.options,
-        correctAnswer: Number(editingQuestion.correctAnswer)
+        correctAnswerIndex: Number(editingQuestion.correctAnswerIndex)
       }
     }));
     setEditingQuestion(null);
@@ -136,7 +136,7 @@ const ManageQuestions = () => {
                   </div>
                   <div className="mb-3">
                     <label className="form-label">Correct Answer Index:</label>
-                    <input type="number" className="form-control" value={editingQuestion.correctAnswer} onChange={(e) => setEditingQuestion({ ...editingQuestion, correctAnswer: e.target.value })} min="0" max={editingQuestion.options.length - 1} required />
+                    <input type="number" className="form-control" value={editingQuestion.correctAnswerIndex ?? 0} onChange={(e) => setEditingQuestion({ ...editingQuestion, correctAnswerIndex: e.target.value })} min="0" max={editingQuestion.options.length - 1} required />
                   </div>
                 </div>
                 <div className="modal-footer">
