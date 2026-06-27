@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
-import { fetchQuizById, addQuestionToQuiz } from '../store/quizSlice';
+import { fetchQuizById, addQuestionToQuiz, removeQuestionFromQuiz } from '../store/quizSlice';
 import { fetchQuestions } from '../store/questionSlice';
 
 const QuizAdminDetail = () => {
@@ -47,6 +47,12 @@ const QuizAdminDetail = () => {
       questionData: { questionId: selectedQuestionId }
     }));
     setSelectedQuestionId('');
+  };
+
+  const handleRemoveQuestion = (questionId) => {
+    if (window.confirm("Are you sure you want to remove this question from the quiz?")) {
+      dispatch(removeQuestionFromQuiz({ quizId: id, questionId }));
+    }
   };
 
   if (!currentQuiz) return <div>Loading...</div>;
@@ -130,7 +136,7 @@ const QuizAdminDetail = () => {
               ))}
             </ol>
             <div className="mt-3">
-              <button className="btn btn-danger btn-sm">Remove from Quiz</button>
+              <button className="btn btn-danger btn-sm" onClick={() => handleRemoveQuestion(q._id)}>Remove from Quiz</button>
             </div>
           </div>
         ))}

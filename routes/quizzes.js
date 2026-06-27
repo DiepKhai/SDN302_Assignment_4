@@ -29,4 +29,7 @@ router.put('/:quizId', authenticate.verifyUser, authenticate.verifyAdmin, quizCo
 // DELETE /quizzes/:quizId
 router.delete('/:quizId', authenticate.verifyUser, authenticate.verifyAdmin, quizController.deleteQuiz);
 
+// DELETE /quizzes/:quizId/question/:questionId
+router.delete('/:quizId/question/:questionId', authenticate.verifyUser, authenticate.verifyAdmin, quizController.removeQuestionFromQuiz);
+
 module.exports = router;

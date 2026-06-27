@@ -52,6 +52,14 @@ export const addQuestionToQuiz = createAsyncThunk('quizzes/addQuestionToQuiz', a
   return response.data;
 });
 
+export const removeQuestionFromQuiz = createAsyncThunk('quizzes/removeQuestionFromQuiz', async ({ quizId, questionId }, { getState }) => {
+  const { auth } = getState();
+  const response = await axios.delete(`${API_URL}/${quizId}/question/${questionId}`, {
+    headers: { Authorization: `Bearer ${auth.token}` }
+  });
+  return response.data;
+});
+
 const quizSlice = createSlice({
   name: 'quizzes',
   initialState: {
@@ -93,6 +101,9 @@ const quizSlice = createSlice({
         }
       })
       .addCase(addQuestionToQuiz.fulfilled, (state, action) => {
+        state.currentQuiz = action.payload; // backend returns updated quiz populated
+      })
+      .addCase(removeQuestionFromQuiz.fulfilled, (state, action) => {
         state.currentQuiz = action.payload; // backend returns updated quiz populated
       });
   }

@@ -203,3 +203,23 @@ exports.deleteQuiz = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.removeQuestionFromQuiz = async (req, res, next) => {
+    try {
+        const { quizId, questionId } = req.params;
+        if (!isValidObjectId(quizId) || !isValidObjectId(questionId)) {
+            return res.status(400).json({ error: 'Invalid ID' });
+        }
+
+        const quiz = await Quiz.findById(quizId);
+        if (!quiz) return res.status(404).json({ error: 'Quiz not found' });
+
+        quiz.questions = quiz.questions.filter(id => id.toString() !== questionId);
+        await quiz.save();
+
+        const updated = await Quiz.findById(quizId).populate('questions');
+        res.json(updated);
+    } catch (err) {
+        next(err);
+    }
+};
