@@ -36,6 +36,14 @@ export const deleteQuiz = createAsyncThunk('quizzes/deleteQuiz', async (id, { ge
   return id;
 });
 
+export const editQuiz = createAsyncThunk('quizzes/editQuiz', async ({ id, quizData }, { getState }) => {
+  const { auth } = getState();
+  const response = await axios.put(`${API_URL}/${id}`, quizData, {
+    headers: { Authorization: `Bearer ${auth.token}` }
+  });
+  return response.data;
+});
+
 export const addQuestionToQuiz = createAsyncThunk('quizzes/addQuestionToQuiz', async ({ quizId, questionData }, { getState }) => {
   const { auth } = getState();
   const response = await axios.post(`${API_URL}/${quizId}/question`, questionData, {
@@ -74,6 +82,15 @@ const quizSlice = createSlice({
       })
       .addCase(deleteQuiz.fulfilled, (state, action) => {
         state.list = state.list.filter(q => q._id !== action.payload);
+      })
+      .addCase(editQuiz.fulfilled, (state, action) => {
+        const index = state.list.findIndex(q => q._id === action.payload._id);
+        if (index !== -1) {
+          state.list[index] = action.payload;
+        }
+        if (state.currentQuiz && state.currentQuiz._id === action.payload._id) {
+          state.currentQuiz = { ...state.currentQuiz, ...action.payload };
+        }
       })
       .addCase(addQuestionToQuiz.fulfilled, (state, action) => {
         state.currentQuiz = action.payload; // backend returns updated quiz populated
